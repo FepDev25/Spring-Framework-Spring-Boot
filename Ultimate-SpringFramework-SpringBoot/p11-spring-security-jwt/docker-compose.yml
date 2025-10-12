@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_jwt
+      SPRING_DATASOURCE_USERNAME: felipep
+      SPRING_DATASOURCE_PASSWORD: mariapaz28
+    networks:
+      - red-interna
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: db_jwt
+      MYSQL_USER: felipep
+      MYSQL_PASSWORD: mariapaz28
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - red-interna
+
+volumes:
+  mysql-data:
+
+networks:
+  red-interna:

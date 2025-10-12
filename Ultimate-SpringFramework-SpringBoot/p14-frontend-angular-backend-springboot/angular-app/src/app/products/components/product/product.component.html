@@ -1,0 +1,23 @@
+
+<h1>Productos</h1>
+
+<div class="container">
+
+  <div class="row">
+    <div class="col">
+      <app-product-form
+        (newProductEvent)="addProduct($event)"
+        [product]="productSelected">
+      </app-product-form>
+    </div>
+
+    <div class="col">
+      <app-product-list
+        (onUpdateProduct)="loadProductUpdate($event)"
+        (onDeleteProduct)="deleteProduct($event)"
+        [products]="products">
+      </app-product-list>
+    </div>
+  </div>
+
+</div>

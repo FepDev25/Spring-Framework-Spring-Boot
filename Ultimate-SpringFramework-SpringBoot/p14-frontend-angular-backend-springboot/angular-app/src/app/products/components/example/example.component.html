@@ -1,0 +1,46 @@
+<!-- <div *ngIf="enable; else noEnable" >
+  <h2>{{ title }}</h2>
+  <router-outlet></router-outlet>
+</div>
+<ng-template #noEnable>
+  <p>No disponible</p>
+</ng-template>
+
+<ul>
+  <li *ngFor="let course of courses">
+    {{ course }}
+  </li>
+</ul>
+
+<ul>
+  <li *ngFor="let persona of personas">
+    {{ persona.name }} - {{ persona.age }}
+  </li>
+</ul> -->
+
+
+@if (enable) {
+
+  <h2>{{ title }}</h2>
+
+  <h3>Cursos</h3>
+  <ul>
+    @for (course of courses; track $index) {
+      <li>{{ course }}</li>
+    }
+  </ul>
+
+  <h3>Personas</h3>
+  <ul>
+    @for (persona of personas; track $index) {
+      <li>{{ persona.name }} - {{ persona.age }}</li>
+    }
+  </ul>
+
+} @else {
+  <p>No disponible</p>
+}
+
+<button (click)="enable = !enable" >
+  {{ enable ? 'Desactivar' : 'Activar' }}
+</button>

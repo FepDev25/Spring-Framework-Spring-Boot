@@ -1,0 +1,26 @@
+1. Componentes, Anotaciones principales
+
+2. Autowired
+2.1 autowired mediante interface
+2.2 autowired mediante setter
+2.3 autowired mediante constructor(no es necesario autowired)
+
+3. Anotaciones
+3.1 Repository
+3.2 Service
+3.3 RestController
+
+4. Dos o más implementaciones de la misma interfaz
+4.1 Notacion Primary, 
+4.2 Notacion Qualifier
+4.2.1. Cambiar el nombre lógico del componente
+4.2.1 Qualifier en inyeccion por interfaz, set y constructor (solo ejemplos)
+4.3 Cual pesa mas entre Primary y Qualifier
+
+5. Contextos / Scopes 
+5.1 Principio de inmutabilidad
+5.2 Singleton
+5.3 RequestScope
+5.4 SessionEscope
+
+6. Registrar componentes en otra clase

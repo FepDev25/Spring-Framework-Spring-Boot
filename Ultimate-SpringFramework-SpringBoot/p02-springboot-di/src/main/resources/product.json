@@ -1,0 +1,27 @@
+[
+	{
+		"id": 1,
+		"name": "Manicho",
+		"price": 1
+	},
+	{
+		"id": 2,
+		"name": "Vive 100",
+		"price": 1
+	},
+	{
+		"id": 3,
+		"name": "Arroz arroba",
+		"price": 15
+	},
+	{
+		"id": 4,
+		"name": "Arroz quintal",
+		"price": 55
+	},
+	{
+		"id": 5,
+		"name": "Arroz libra",
+		"price": 1
+	}
+]
