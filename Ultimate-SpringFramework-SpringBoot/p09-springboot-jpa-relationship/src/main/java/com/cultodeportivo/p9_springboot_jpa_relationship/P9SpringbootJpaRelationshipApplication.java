@@ -82,6 +82,7 @@ public class P9SpringbootJpaRelationshipApplication implements CommandLineRunner
 			student2.addCourse(course3);
 			student2.addCourse(course4);
 
+			@SuppressWarnings("null")
 			List<Student> students = (List<Student>) studentRepository.saveAll(Arrays.asList(student, student2));
 
 			System.out.println("Guardados:");
@@ -104,6 +105,7 @@ public class P9SpringbootJpaRelationshipApplication implements CommandLineRunner
 		});
 	}
 
+	@SuppressWarnings("null")
 	public void manyToManySave(){
 
 		Student student = new Student("Gabriel", "Santos");
