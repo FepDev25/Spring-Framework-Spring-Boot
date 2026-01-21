@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public abstract class SimpleGrantedAuthorityJsonCreator {
     
     @JsonCreator
-    public SimpleGrantedAuthorityJsonCreator(@JsonProperty("authority") String role) {
-        new SimpleGrantedAuthority(role);
+    public static SimpleGrantedAuthority create(@JsonProperty("authority") String role) {
+        return new SimpleGrantedAuthority(role);
     }
 }

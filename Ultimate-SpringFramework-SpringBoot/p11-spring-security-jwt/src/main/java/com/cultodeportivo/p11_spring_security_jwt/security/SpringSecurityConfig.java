@@ -79,6 +79,7 @@ public class SpringSecurityConfig {
         return source;
     }
 
+    @SuppressWarnings("null")
     @Bean
     FilterRegistrationBean<CorsFilter> corsFilter() {
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
