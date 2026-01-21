@@ -250,6 +250,7 @@ public class P8SprinbootJpaApplication implements CommandLineRunner {
 		}	
 	}
 
+	@SuppressWarnings("null")
 	public void deleteVersionDos(){
 		try (Scanner scanner = new Scanner(System.in)) {
 			List<Person> people = (List<Person>) personRepository.findAll();
@@ -347,6 +348,7 @@ public class P8SprinbootJpaApplication implements CommandLineRunner {
 		System.out.println("Persona creada: " + personNew);
 	}
 
+	@SuppressWarnings("null")
 	public void crearConEntrada(){
 		try (Scanner scanner = new Scanner(System.in)) {
 			System.out.println("Introduce el nombre de la persona: ");

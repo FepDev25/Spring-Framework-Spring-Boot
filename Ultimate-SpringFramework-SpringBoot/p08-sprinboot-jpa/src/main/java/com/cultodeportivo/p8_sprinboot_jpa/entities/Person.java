@@ -23,7 +23,7 @@ public class Person {
     private String programmingLanguage;
 
     @Embedded
-    private Audit audit = new Audit();
+    private final Audit audit = new Audit();
 
     public Person() {
     }
@@ -82,8 +82,4 @@ public class Person {
         sb.append('}');
         return sb.toString();
     }
-
-
-    
-
 }
