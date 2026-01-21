@@ -22,12 +22,14 @@ public class UserServiceImpl implements UserService {
         return (List<User>) repository.findAll();
     }
 
+    @SuppressWarnings("null")
     @Transactional(readOnly = true)
     @Override
     public Optional<User> findById(Long id) {
         return repository.findById(id);
     }
 
+    @SuppressWarnings("null")
     @Transactional
     @Override
     public User save(User user) {
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Optional<User> update(Long id, User user) {
+        @SuppressWarnings("null")
         Optional<User> userOp = repository.findById(id);
 
         if (userOp.isPresent()) {
@@ -51,6 +54,7 @@ public class UserServiceImpl implements UserService {
         return userOp;
     }
 
+    @SuppressWarnings("null")
     @Transactional
     @Override
     public Optional<User> delete(Long id) {

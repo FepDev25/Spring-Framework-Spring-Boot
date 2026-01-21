@@ -22,12 +22,14 @@ public class ProductServiceImpl implements ProductService {
         return (List<Product>) repository.findAll();
     }
 
+    @SuppressWarnings("null")
     @Transactional(readOnly = true)
     @Override
     public Optional<Product> findById(Long id) {
         return repository.findById(id);
     }
 
+    @SuppressWarnings("null")
     @Transactional
     @Override
     public Product save(Product product) {
@@ -37,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public Optional<Product> update(Long id, Product product) {
+        @SuppressWarnings("null")
         Optional<Product> productoOp = repository.findById(id);
 
         if (productoOp.isPresent()) {
@@ -51,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
         return productoOp;
     }
 
+    @SuppressWarnings("null")
     @Transactional
     @Override
     public Optional<Product> delete(Long id) {
