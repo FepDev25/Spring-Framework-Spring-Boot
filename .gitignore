@@ -212,7 +212,4 @@ replay_pid*
 **/*.bak
 **/*.old
 
-# Books sections
-books/books
-
 Spring 6 & Springboot 3/prompt_documentation.txt
