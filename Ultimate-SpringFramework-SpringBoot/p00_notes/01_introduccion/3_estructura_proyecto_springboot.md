@@ -1,0 +1,22 @@
+# Estructura de un proyecto Spring Boot
+
+- pom.xml: Dependencias y configuración del proyecto.
+  - groupId: Identificador del proyecto.
+  - artifactId: Nombre del proyecto.
+  - name: Nombre del proyecto.
+  - version: Versión del proyecto.
+  - java.version: Versión de Java.
+  - dependencies: Dependencias del proyecto.
+  - plugins: Plugins del proyecto.
+- .mvn: Directorio de configuración de Maven.
+- mvnw: Script de Maven.
+- HELP.md: Ayuda del proyecto.
+- .gitignore: Archivo de configuración de Git.
+- target: Donde se va a guardar el archivo ejecutable.
+- src: Directorio de fuente del proyecto.
+  - java: Directorio de clases del proyecto.
+    - SpringbootApplication.java: Clase principal del proyecto.
+  - resources: Directorio de recursos del proyecto.
+    - aplication.properties: Archivo de configuración del proyecto.
+    - templates: Directorio de plantillas del proyecto.
+    - static: Directorio de recursos estáticos del proyecto.
