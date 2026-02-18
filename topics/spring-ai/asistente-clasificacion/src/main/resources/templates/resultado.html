@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Clasificado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .ticket-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .ticket-id {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .badge-critica { background: #dc3545; color: white; }
+        .badge-alta { background: #fd7e14; color: white; }
+        .badge-media { background: #ffc107; color: #333; }
+        .badge-baja { background: #28a745; color: white; }
+
+        .descripcion-section {
+            margin-top: 25px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .descripcion-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            color: #666;
+            line-height: 1.6;
+            border: 1px solid #e0e0e0;
+        }
+
+        .resumen-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            color: #333;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .respuesta-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4caf50;
+            color: #2e7d32;
+            line-height: 1.8;
+            font-style: italic;
+            white-space: pre-wrap;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .ai-info {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="success-icon">✓</div>
+            <h1>Ticket Clasificado Exitosamente</h1>
+            <p>La IA ha analizado y categorizado tu reporte</p>
+        </div>
+
+        <div class="content">
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <div class="ticket-id">Ticket #<span th:text="${ticket.id}">001</span></div>
+                    <span th:class="${'badge badge-' + #strings.toLowerCase(ticket.prioridad)}"
+                          th:text="${ticket.prioridad}">ALTA</span>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Categoría</div>
+                        <div class="info-value" th:text="${ticket.categoria}">RED</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Departamento Asignado</div>
+                        <div class="info-value" th:text="${ticket.departamento}">SISTEMAS</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Estado</div>
+                        <div class="info-value" th:text="${ticket.estado}">ABIERTO</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Fecha de Creación</div>
+                        <div class="info-value" th:text="${#temporals.format(ticket.fechaCreacion, 'dd/MM/yyyy HH:mm')}">
+                            03/02/2026 10:30
+                        </div>
+                    </div>
+                </div>
+
+                <div class="descripcion-section">
+                    <div class="section-title">Resumen Generado por IA</div>
+                    <div class="resumen-box" th:text="${ticket.resumen}">
+                        Problema de conectividad de red
+                    </div>
+                </div>
+
+                <div class="descripcion-section">
+                    <div class="section-title">Descripción Original</div>
+                    <div class="descripcion-box" th:text="${ticket.descripcion}">
+                        Mi internet está muy lento desde esta mañana...
+                    </div>
+                </div>
+
+                <!-- Respuesta sugerida por IA -->
+                <div class="descripcion-section" th:if="${ticket.respuestaSugerida != null}">
+                    <div class="section-title">🤖 Respuesta Sugerida por IA</div>
+                    <div class="respuesta-box" th:text="${ticket.respuestaSugerida}">
+                        Respuesta generada...
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <a href="/" class="btn btn-primary">Crear Otro Ticket</a>
+                <!-- Mostrar botón generar solo si no hay respuesta -->
+                <form th:if="${ticket.respuestaSugerida == null}" 
+                      th:action="@{/tickets/{id}/respuesta(id=${ticket.id})}" method="post" style="flex: 1;">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        ✨ Generar Respuesta Sugerida
+                    </button>
+                </form>
+                <a href="/tickets" class="btn btn-secondary">Ver Todos los Tickets</a>
+            </div>
+
+            <div class="ai-info">
+                Clasificado automáticamente usando Spring AI BeanOutputParser con llama3.1
+            </div>
+        </div>
+    </div>
+</body>
+</html>

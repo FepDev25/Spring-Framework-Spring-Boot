@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Tickets - Clasificación Automática</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .main-content {
+            background: white;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #667eea;
+            border: 2px solid #667eea;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-box h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .tickets-preview {
+            margin-top: 40px;
+        }
+
+        .tickets-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .tickets-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tickets-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-critica { background: #dc3545; color: white; }
+        .badge-alta { background: #fd7e14; color: white; }
+        .badge-media { background: #ffc107; color: #333; }
+        .badge-baja { background: #28a745; color: white; }
+        .badge-abierto { background: #17a2b8; color: white; }
+
+        .footer {
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 15px 15px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sistema de Tickets con IA</h1>
+            <p class="subtitle">Clasificación automática usando Spring AI y Ollama</p>
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <h2 class="section-title">Reportar Nuevo Problema</h2>
+
+                <div class="info-box">
+                    <h3>¿Cómo funciona la clasificación automática?</h3>
+                    <ul>
+                        <li>Describe tu problema en lenguaje natural</li>
+                        <li>La IA analiza tu descripción usando BeanOutputParser</li>
+                        <li>Clasifica automáticamente: categoría, prioridad y departamento</li>
+                        <li>Guarda el ticket en la base de datos SQLite</li>
+                    </ul>
+                </div>
+
+                <form method="post" action="/clasificar">
+                    <div class="form-group">
+                        <label for="descripcion">Describe tu problema:</label>
+                        <textarea
+                            id="descripcion"
+                            name="descripcion"
+                            rows="6"
+                            placeholder="Ej: Mi internet está muy lento desde esta mañana y no puedo acceder a la página web de la empresa..."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Clasificar y Crear Ticket
+                    </button>
+                    <a href="/tickets" class="btn btn-secondary">
+                        Ver Todos los Tickets
+                    </a>
+                </form>
+            </div>
+
+            <div class="tickets-preview" th:if="${tickets != null && !tickets.isEmpty()}">
+                <h2 class="section-title">Últimos Tickets Creados</h2>
+                <table class="tickets-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Resumen</th>
+                            <th>Categoría</th>
+                            <th>Prioridad</th>
+                            <th>Departamento</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ticket : ${tickets}" th:if="${ticketStat.index < 5}">
+                            <td th:text="${ticket.id}">1</td>
+                            <td th:text="${ticket.resumen}">Problema de red</td>
+                            <td th:text="${ticket.categoria}">RED</td>
+                            <td>
+                                <span th:class="${'badge badge-' + #strings.toLowerCase(ticket.prioridad)}"
+                                      th:text="${ticket.prioridad}">ALTA</span>
+                            </td>
+                            <td th:text="${ticket.departamento}">SISTEMAS</td>
+                            <td>
+                                <span th:class="${'badge badge-' + #strings.toLowerCase(ticket.estado)}"
+                                      th:text="${ticket.estado}">ABIERTO</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            Procesado con llama3.1 + Spring AI BeanOutputParser | Datos almacenados en SQLite
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat con tus Documentos - RAG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .main-content {
+            background: white;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            font-size: 40px;
+        }
+
+        .stat-info h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-box h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .upload-area {
+            border: 3px dashed #e0e0e0;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: #fafafa;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .upload-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .footer {
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 15px 15px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            margin: 0 5px;
+        }
+    </style>
+    <script>
+        function selectFile() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileSelect(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('uploadForm').submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Chat con tus Documentos</h1>
+            <p class="subtitle">Retrieval Augmented Generation (RAG) con Spring AI</p>
+        </div>
+
+        <div class="main-content">
+            <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+            <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-icon">📄</div>
+                    <div class="stat-info">
+                        <h3>Documentos Cargados</h3>
+                        <p th:text="${documentCount}">0</p>
+                    </div>
+                </div>
+                <form method="post" action="/limpiar" style="margin: 0;">
+                    <button type="submit" class="btn btn-danger"
+                            th:disabled="${documentCount == 0}"
+                            onclick="return confirm('¿Seguro que quieres eliminar todos los documentos?')">
+                        Limpiar Documentos
+                    </button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span>📤</span> Paso 1: Sube tus Documentos
+                </h2>
+
+                <div class="info-box">
+                    <h3>¿Cómo funciona RAG?</h3>
+                    <ul>
+                        <li>Sube un archivo de texto (.txt)</li>
+                        <li>El sistema lo divide en fragmentos pequeños</li>
+                        <li>Crea embeddings (vectores) usando Ollama</li>
+                        <li>Los guarda en SimpleVectorStore (memoria)</li>
+                        <li>Cuando preguntas, busca los fragmentos más relevantes</li>
+                        <li>La IA responde usando solo ese contexto</li>
+                    </ul>
+                </div>
+
+                <form id="uploadForm" method="post" action="/upload" enctype="multipart/form-data">
+                    <div class="upload-area" onclick="selectFile()">
+                        <div class="upload-icon">📁</div>
+                        <h3>Haz clic para seleccionar un archivo .txt</h3>
+                        <p style="color: #999; margin-top: 10px;">Tamaño máximo: 10MB</p>
+                        <input type="file"
+                               id="fileInput"
+                               name="file"
+                               class="file-input"
+                               accept=".txt"
+                               onchange="handleFileSelect(this)">
+                    </div>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span>💬</span> Paso 2: Haz Preguntas sobre tus Documentos
+                </h2>
+
+                <form method="post" action="/preguntar">
+                    <div class="form-group">
+                        <label for="pregunta">¿Qué quieres saber?</label>
+                        <textarea
+                            id="pregunta"
+                            name="pregunta"
+                            rows="4"
+                            placeholder="Ej: ¿Cuál es el proceso para solicitar vacaciones?"
+                            required
+                            th:disabled="${documentCount == 0}"></textarea>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary"
+                            th:disabled="${documentCount == 0}">
+                        Preguntar a la IA
+                    </button>
+
+                    <p th:if="${documentCount == 0}"
+                       style="color: #999; margin-top: 10px; font-style: italic;">
+                        Primero debes cargar al menos un documento
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                <span class="tech-badge">Spring AI</span>
+                <span class="tech-badge">Ollama Embeddings</span>
+                <span class="tech-badge">SimpleVectorStore</span>
+                <span class="tech-badge">llama3.1</span>
+            </p>
+            <p style="margin-top: 10px;">
+                Procesamiento 100% local - Tus documentos nunca salen de tu computadora
+            </p>
+        </div>
+    </div>
+</body>
+</html>
