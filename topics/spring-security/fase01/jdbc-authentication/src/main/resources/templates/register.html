@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <style>
+        body { font-family: sans-serif; max-width: 400px; margin: 80px auto; padding: 0 20px; }
+        h2 { margin-bottom: 20px; }
+        label { display: block; margin-top: 12px; font-size: 14px; }
+        input[type="text"], input[type="password"] {
+            width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; border: 1px solid #ccc;
+        }
+        button { margin-top: 20px; width: 100%; padding: 10px; background: #2d6a4f; color: white; border: none; cursor: pointer; }
+        button:hover { background: #1b4332; }
+        .msg-error { color: #c0392b; margin-top: 12px; font-size: 14px; }
+        .links { margin-top: 16px; font-size: 14px; }
+        .links a { color: #2d6a4f; }
+    </style>
+</head>
+<body>
+
+<h2>Crear cuenta</h2>
+
+<!--
+    POST /register: procesado por PageController.registerUser().
+    Thymeleaf inyecta el token CSRF automaticamente via th:action.
+    El rol asignado al nuevo usuario es ROLE_USER por defecto.
+-->
+<form method="post" th:action="@{/register}">
+    <label for="username">Usuario</label>
+    <input type="text" id="username" name="username" autofocus>
+
+    <label for="password">Contrasena</label>
+    <input type="password" id="password" name="password">
+
+    <button type="submit">Registrarse</button>
+</form>
+
+<p class="msg-error" th:if="${error}" th:text="${error}"></p>
+
+<div class="links">
+    <a th:href="@{/login}">Ya tengo cuenta</a>
+</div>
+
+</body>
+</html>

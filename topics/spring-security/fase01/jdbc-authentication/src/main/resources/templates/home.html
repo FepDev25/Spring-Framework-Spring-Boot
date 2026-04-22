@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 12px; }
+        .info { background: #f4f4f4; padding: 16px; margin-top: 20px; border-left: 4px solid #2d6a4f; }
+        .info p { margin: 6px 0; font-size: 14px; }
+        a { color: #2d6a4f; }
+        button { padding: 8px 16px; background: #c0392b; color: white; border: none; cursor: pointer; }
+        button:hover { background: #922b21; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Pagina principal</h2>
+    <form method="post" th:action="@{/logout}">
+        <button type="submit">Cerrar sesion</button>
+    </form>
+</div>
+
+<div class="info">
+    <p>Bienvenido, <strong th:text="${username}">usuario</strong></p>
+    <p>Roles: <span th:text="${roles}">roles</span></p>
+</div>
+
+<p style="margin-top: 20px;" sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/admin}">Panel de administracion</a>
+</p>
+
+<p style="margin-top: 8px;">
+    <a th:href="@{/h2-console}" target="_blank">Consola H2 (ver tablas users y authorities)</a>
+</p>
+
+</body>
+</html>
