@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administracion</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 12px; }
+        .info { background: #fff8e1; padding: 16px; margin-top: 20px; border-left: 4px solid #f39c12; }
+        .info p { margin: 6px 0; font-size: 14px; }
+        a { color: #2d6a4f; }
+        button { padding: 8px 16px; background: #c0392b; color: white; border: none; cursor: pointer; }
+        button:hover { background: #922b21; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Panel de administracion</h2>
+    <form method="post" th:action="@{/logout}">
+        <button type="submit">Cerrar sesion</button>
+    </form>
+</div>
+
+<div class="info">
+    <!--
+        Si un usuario con rol USER intenta acceder directamente a /admin,
+        Spring Security devuelve 403 Forbidden antes de que llegue aqui.
+        Este template solo se renderiza si el acceso fue autorizado.
+    -->
+    <p>Usuario autenticado: <strong th:text="${username}">usuario</strong></p>
+    <p>Authorities: <span th:text="${roles}">roles</span></p>
+    <p>Acceso concedido por: regla hasRole("ADMIN") en SecurityConfig</p>
+</div>
+
+<p style="margin-top: 20px;">
+    <a th:href="@{/home}">Volver a inicio</a>
+</p>
+
+</body>
+</html>

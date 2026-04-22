@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body { font-family: sans-serif; max-width: 400px; margin: 80px auto; padding: 0 20px; }
+        h2 { margin-bottom: 20px; }
+        label { display: block; margin-top: 12px; font-size: 14px; }
+        input[type="text"], input[type="password"] {
+            width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; border: 1px solid #ccc;
+        }
+        .checkbox-row { margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        button { margin-top: 20px; width: 100%; padding: 10px; background: #2d6a4f; color: white; border: none; cursor: pointer; }
+        button:hover { background: #1b4332; }
+        .msg-error { color: #c0392b; margin-top: 12px; font-size: 14px; }
+        .msg-success { color: #27ae60; margin-top: 12px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<h2>Iniciar sesion</h2>
+
+<!--
+    th:action="@{/login}" hace dos cosas:
+    1. Resuelve la URL con el context path de la aplicacion.
+    2. Al ser un formulario POST, Thymeleaf inyecta automaticamente un campo
+       hidden con el token CSRF. Esto previene ataques Cross-Site Request Forgery.
+       El token se verifica por el CsrfFilter de Spring Security al recibir el POST.
+-->
+<form method="post" th:action="@{/login}">
+
+    <label for="username">Usuario</label>
+    <!--
+        El nombre del campo debe ser exactamente "username" y "password".
+        Son los nombres que UsernamePasswordAuthenticationFilter espera por defecto.
+        Se pueden cambiar con usernameParameter() y passwordParameter() en SecurityConfig.
+    -->
+    <input type="text" id="username" name="username" placeholder="usuario" autofocus>
+
+    <label for="password">Contrasena</label>
+    <input type="password" id="password" name="password" placeholder="contrasena">
+
+    <!--
+        Remember-Me. El nombre del campo debe ser "remember-me" (por defecto).
+        Si el usuario marca este checkbox, Spring Security genera la cookie
+        remember-me tras el login exitoso.
+    -->
+    <div class="checkbox-row">
+        <input type="checkbox" id="remember-me" name="remember-me">
+        <label for="remember-me" style="margin: 0;">Recordarme</label>
+    </div>
+
+    <button type="submit">Entrar</button>
+
+</form>
+
+<!-- th:if evalua la expresion; param.error existe si la URL tiene ?error -->
+<p class="msg-error" th:if="${param.error}">
+    Usuario o contrasena incorrectos.
+</p>
+
+<!-- param.logout existe si la URL tiene ?logout -->
+<p class="msg-success" th:if="${param.logout}">
+    Sesion cerrada correctamente.
+</p>
+
+</body>
+</html>

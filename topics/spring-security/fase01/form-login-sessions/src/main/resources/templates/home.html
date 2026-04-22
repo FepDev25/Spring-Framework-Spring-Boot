@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 12px; }
+        .info { background: #f4f4f4; padding: 16px; margin-top: 20px; border-left: 4px solid #2d6a4f; }
+        .info p { margin: 6px 0; font-size: 14px; }
+        a { color: #2d6a4f; }
+        button { padding: 8px 16px; background: #c0392b; color: white; border: none; cursor: pointer; }
+        button:hover { background: #922b21; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Pagina principal</h2>
+
+    <!--
+        El logout DEBE hacerse via POST, no via link GET.
+        Razon: CSRF protection. Spring Security rechazaria un GET /logout
+        porque cualquier sitio malicioso podria forzar al usuario a hacer
+        clic en un link y cerrar su sesion sin saberlo.
+        Thymeleaf inyecta el token CSRF automaticamente en este formulario.
+    -->
+    <form method="post" th:action="@{/logout}">
+        <button type="submit">Cerrar sesion</button>
+    </form>
+</div>
+
+<div class="info">
+    <!--
+        th:text reemplaza el contenido del elemento con el valor de la expresion.
+        Las variables vienen del Model que se poblo en PageController.home().
+    -->
+    <p>Bienvenido, <strong th:text="${username}">usuario</strong></p>
+    <p>Roles asignados: <span th:text="${roles}">roles</span></p>
+</div>
+
+<!--
+    sec:authorize es provisto por thymeleaf-extras-springsecurity6.
+    Renderiza el elemento solo si la expresion SpEL de seguridad es verdadera.
+    hasRole('ADMIN') evalua si el usuario actual tiene ROLE_ADMIN.
+    Esto es ocultamiento en la vista, no una restriccion de acceso real.
+    La restriccion real esta en SecurityConfig.
+-->
+<p style="margin-top: 20px;" sec:authorize="hasRole('ADMIN')">
+    Tienes acceso de administrador.
+    <a th:href="@{/admin}">Ir al panel de administracion</a>
+</p>
+
+</body>
+</html>
