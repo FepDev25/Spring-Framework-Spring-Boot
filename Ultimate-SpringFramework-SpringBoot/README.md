@@ -26,7 +26,7 @@ Este repositorio contiene todos los proyectos y notas creados durante el curso d
 
 ## Notas del Curso
 
-- El directorio `1_notas` contiene apuntes detallados sobre varios temas cubiertos en el curso. Estas notas están organizadas en los siguientes temas principales:
+- El directorio `p00_notes` contiene apuntes detallados sobre varios temas cubiertos en el curso. Estas notas están organizadas en los siguientes temas principales:
   - Introducción a Spring Boot
   - Spring MVC
   - Inyección de Dependencias

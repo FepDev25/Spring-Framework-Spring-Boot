@@ -44,7 +44,7 @@ java -jar ./p1-springboot-web-0.0.1-SNAPSHOT.jar
 Verás un resultado similar en consola:
 
 ```bash
-:: Spring Boot ::                (v3.4.5)
+:: Spring Boot ::                (v3.5.9)
 
 ... Starting P1SpringbootWebApplication ...
 ... Tomcat initialized with port 8080 (http) ...

@@ -212,7 +212,4 @@ replay_pid*
 **/*.bak
 **/*.old
 
-Spring 6 & Springboot 3/prompt_documentation.txt
-Spring 6 & Springboot 3/course/
-
 **.mvn/

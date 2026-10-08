@@ -58,7 +58,7 @@ java -jar ./target/p11-spring-security-jwt-0.0.1-SNAPSHOT.jar
 - Spring Boot inicia con el banner:
 
   ```plaintext
-   :: Spring Boot :: (v3.5.0)
+   :: Spring Boot :: (v3.5.9)
   ```
   
 - Se levanta el servidor **Tomcat embebido** en el puerto 8080 (por defecto).
